@@ -1,22 +1,33 @@
 package com.deny.workmanager
 
-import android.content.Context
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
+import androidx.lifecycle.viewModelScope
 import com.deny.workmanager.model.MoviesModel
+import com.deny.workmanager.repository.MoviesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
-class MainViewModel(val context: Context): ViewModel() {
+class MainViewModel(application: Application): AndroidViewModel(application) {
 
-    /*fun getFilmes(): LiveData<MutableList<MoviesModel>>{
-        val uploadWorkRequest: WorkRequest =
-            OneTimeWorkRequestBuilder<MyWorker>()
-                .build()
-        WorkManager
-            .getInstance(context)
-            .enqueue(uploadWorkRequest)
+    lateinit var aux: LiveData<MutableList<MoviesModel>>
+
+    suspend fun getMovies(): LiveData<MutableList<MoviesModel>> {
+        return withContext(Dispatchers.IO) {
+            MoviesRepository().getMovies()
+        }
+    }
+    /*suspend fun getMovies() {
+        viewModelScope.async(Dispatchers.IO){
+            aux = MoviesRepository().getMovies()
+        }.await()
     }*/
 
+    suspend fun getDirector(): LiveData<MutableList<MoviesModel>> {
+        return withContext(Dispatchers.IO) {
+            MoviesRepository().getMovies()
+        }
+    }
 }

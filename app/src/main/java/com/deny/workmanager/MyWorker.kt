@@ -30,6 +30,6 @@ class MyWorker(appContext: Context, workerParameters: WorkerParameters): Worker(
     }
 
     fun getMovies(){
-        lista = MoviesRepository().getMovies()
+        //lista = MoviesRepository().getMovies()
     }
 }
