@@ -7,15 +7,13 @@ import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.deny.workmanager.model.MoviesModel
-import com.deny.workmanager.repository.MoviesRepository
 
-
-class MyWorker(appContext: Context, workerParameters: WorkerParameters): Worker(appContext,
+class MyWorkerB(appContext: Context, workerParameters: WorkerParameters): Worker(appContext,
     workerParameters
 ) {
 
     companion object{
-        const val KEY_TASK_OUTPUT: String = "key_task_output"
+        const val KEY_TASK_OUTPUT2: String = "key_task_output"
     }
 
     var _lista = MutableLiveData<MutableList<MoviesModel>>()
@@ -24,7 +22,7 @@ class MyWorker(appContext: Context, workerParameters: WorkerParameters): Worker(
     override fun doWork(): Result {
         //getMovies()
         var data1 = Data.Builder()
-            .putString(KEY_TASK_OUTPUT, "Task Finished successfuly")
+            .putString(KEY_TASK_OUTPUT2, "Task Finished worker B")
             .build()
 
         return Result.success(data1)

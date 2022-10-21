@@ -4,10 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.*
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
+import androidx.work.*
 import com.deny.workmanager.MyWorker.Companion.KEY_TASK_OUTPUT
+import com.deny.workmanager.MyWorkerB.Companion.KEY_TASK_OUTPUT2
 import com.deny.workmanager.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,16 +31,64 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListener() {
+
+        val uploadWorkRequest =
+            OneTimeWorkRequestBuilder<MyWorker>()
+                .build()
+
+        val uploadWorkRequestB =
+            OneTimeWorkRequestBuilder<MyWorkerB>()
+                .build()
+
+        WorkManager
+            .getInstance(this)
+            .beginWith(uploadWorkRequest)
+            .then(OneTimeWorkRequest.from(MyWorkerB::class.java))
+            .enqueue()
+
         binding.btnOneTime.setOnClickListener {
-            lifecycleScope.launch {
+
+            WorkManager
+                .getInstance()
+                .getWorkInfoByIdLiveData(uploadWorkRequest.id)
+                .observe(this, Observer {
+                    if (it!=null){
+                        if (it.state.isFinished){
+                            var aux = it.outputData.getString(KEY_TASK_OUTPUT).toString()
+                            Toast.makeText(
+                                baseContext,
+                                aux,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                })
+            /*lifecycleScope.launch {
                 viewModel.apply {
                     this.getMovies().observe(this@MainActivity, Observer {
                         count += it.elementAt(0).director
                     })
                 }
-            }
+            }*/
         }
         binding.btnPeriodic.setOnClickListener {
+
+            /*WorkManager
+                .getInstance()
+                .getWorkInfoByIdLiveData(uploadWorkRequestB.id)
+                .observe(this, Observer {
+                    if (it!=null){
+                        if (it.state.isFinished){
+                            var aux = it.outputData.getString(KEY_TASK_OUTPUT2).toString()
+                            Toast.makeText(
+                                baseContext,
+                                aux,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                })*/
+
             lifecycleScope.launch {
                 viewModel.apply {
                     this.getDirector().observe(this@MainActivity, Observer {
