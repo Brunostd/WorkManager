@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         WorkManager
             .getInstance(this)
             .beginWith(uploadWorkRequest)
-            .then(OneTimeWorkRequest.from(MyWorkerB::class.java))
+            .then(uploadWorkRequestB)
             .enqueue()
 
         binding.btnOneTime.setOnClickListener {
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnPeriodic.setOnClickListener {
 
-            /*WorkManager
+            WorkManager
                 .getInstance()
                 .getWorkInfoByIdLiveData(uploadWorkRequestB.id)
                 .observe(this, Observer {
@@ -87,9 +87,9 @@ class MainActivity : AppCompatActivity() {
                             ).show()
                         }
                     }
-                })*/
+                })
 
-            lifecycleScope.launch {
+            /*lifecycleScope.launch {
                 viewModel.apply {
                     this.getDirector().observe(this@MainActivity, Observer {
                         count += it.elementAt(1).director
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                         ).show()
                     })
                 }
-            }
+            }*/
         }
     }
 }

@@ -21,11 +21,11 @@ class MyWorkerB(appContext: Context, workerParameters: WorkerParameters): Worker
 
     override fun doWork(): Result {
         //getMovies()
-        var data1 = Data.Builder()
+        var data2 = Data.Builder()
             .putString(KEY_TASK_OUTPUT2, "Task Finished worker B")
             .build()
 
-        return Result.success(data1)
+        return Result.success(data2)
     }
 
     fun getMovies(){
