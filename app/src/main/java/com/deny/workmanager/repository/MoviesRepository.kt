@@ -10,10 +10,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MoviesRepository {
+class MoviesRepository() {
 
-    var listMovies = MutableLiveData<MutableList<MoviesModel>>()
-    var auxListMovies: MutableList<MoviesModel> = arrayListOf()
+    private var listMovies = MutableLiveData<MutableList<MoviesModel>>()
+    private var auxListMovies: MutableList<MoviesModel> = arrayListOf()
 
     fun getMovies(): LiveData<MutableList<MoviesModel>>{
 
